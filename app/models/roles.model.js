@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize')
-const db = require('../db/db')
+import { DataTypes } from 'sequelize';
+import db from '../db/db.js';
 
 const Rol = db.define('Rol', {
     nombre: {
@@ -9,6 +9,6 @@ const Rol = db.define('Rol', {
 }, {
     tableName: 'roles',
     timestamps: false
-})
+});
 
-module.exports = Rol
+export default Rol;

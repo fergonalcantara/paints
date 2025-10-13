@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize')
-const db = require('../db/db')
-const Rol = require('./roles.model')
+import { DataTypes } from 'sequelize';
+import db from '../db/db.js';
+import Rol from './roles.model.js';
 
 const Usuario = db.define('Usuario', {
     usuario: {
@@ -34,7 +34,8 @@ const Usuario = db.define('Usuario', {
 }, {
     tableName: 'usuarios',
     timestamps: false
-})
+});
 
-Usuario.belongsTo(Rol, { foreignKey: 'rol_id', as: 'rol' })
-module.exports = Usuario
+Usuario.belongsTo(Rol, { foreignKey: 'rol_id', as: 'rol' });
+
+export default Usuario;
