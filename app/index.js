@@ -1,4 +1,8 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+
+import sequelize from "./db/db.js";
 
 // Corregimos __dirname absoluta
 import path from 'path';
@@ -18,3 +22,12 @@ app.use(express.static(__dirname + "/public"));
 app.get("/", (req,res)=> res.sendFile(__dirname + "/pages/login.html"));
 app.get("/register", (req,res)=> res.sendFile(__dirname + "/pages/register.html"));
 app.get("/admin", (req,res)=> res.sendFile(__dirname + "/pages/admin/admin.html"));
+
+// Conexion a DB
+sequelize.sync().then(() => {
+  app.listen(3000, () => {
+    console.log('Base de datos conectada')
+  })
+}).catch(err => {
+  console.error('Error al conectar la base de datos', err)
+})
