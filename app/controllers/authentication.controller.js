@@ -7,7 +7,30 @@ dotenv.config();
 
 // Inicio de Sesion - Verificamos credenciales
 async function login(req, res) {
+    console.log(req.body);
+    const user = req.body.user;
+    const password = req.body.password;
 
+    if (!user || !password) {
+        return res.status(400).send({ status: "Error", message: 'Todos los campos son obligatorios' });
+    }
+
+    // Verificamos que el usuario ya exista
+    const userVerify = await Usuario.findOne({
+      where: { usuario: user, estado: 1 }
+    });
+
+    if (!userVerify) {
+      return res.status(401).json({ message: 'Error durante el inicio de Sesion' });
+    }
+
+    // Verificamos la contraseña
+    const passwordMatch = await bcrypt.compare(password, userVerify.password_hash);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Error durante el inicio de Sesion' });
+    }
+
+    // console.log(passwordMatch);
 }
 
 // Registrar - Registramos un nuevo usuario
@@ -43,20 +66,20 @@ async function register(req, res) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Creamos el usuario
-    const nuevoUsuario = await Usuario.create({
-      usuario: user,
-      password_hash: hashedPassword,
-      nombre_completo: name,
-      email,
-      rol_id: 5,
-      estado: 1
+    const newUser = await Usuario.create({
+        usuario: user,
+        password_hash: hashedPassword,
+        nombre_completo: name,
+        email,
+        rol_id: 5,
+        estado: 1
     });
-    console.log(nuevoUsuario);
+    console.log(newUser);
 
     return res.status(201).json({
-      status: "OK",
-      message: "Usuario registrado correctamente",
-      redirect: "/",
+        status: "OK",
+        message: "Usuario registrado correctamente",
+        redirect: "/",
     });
 }
 
