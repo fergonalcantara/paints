@@ -6,10 +6,10 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     const form = e.target;
 
     const body = {
-        name: form.elements.name.value.trim(),
-        email: form.elements.email.value.trim(),
-        user: form.elements.user.value.trim(),
-        password: form.elements.password.value.trim()
+        name: form.target.children.name.value,
+        email: form.target.childrenemail.value,
+        user: form.target.children.user.value,
+        password: form.target.children.password.value
     };
 
     const res = await fetch("http://localhost:4000/api/register", {
