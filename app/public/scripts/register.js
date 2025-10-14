@@ -6,10 +6,10 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     const form = e.target;
 
     const body = {
-        name: form.target.children.name.value,
-        email: form.target.children.email.value,
-        user: form.target.children.user.value,
-        password: form.target.children.password.value
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        user: form.elements.user.value,
+        password: form.elements.password.value
     };
 
     const res = await fetch("http://localhost:4000/api/register", {
@@ -19,9 +19,11 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
         },
         body: JSON.stringify(body)
     });
+
     if (!res.ok) return mensajeError.classList.toggle("escondido", false);
+
     const resJson = await res.json();
     if (resJson.redirect) {
         window.location.href = resJson.redirect;
     }
-})
+});
