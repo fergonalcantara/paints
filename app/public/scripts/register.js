@@ -7,7 +7,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
 
     const body = {
         name: form.target.children.name.value,
-        email: form.target.childrenemail.value,
+        email: form.target.children.email.value,
         user: form.target.children.user.value,
         password: form.target.children.password.value
     };
