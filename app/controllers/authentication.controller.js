@@ -53,7 +53,7 @@ async function register(req, res) {
     });
     console.log(nuevoUsuario);
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "OK",
       message: "Usuario registrado correctamente",
       redirect: "/",
