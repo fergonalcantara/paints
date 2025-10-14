@@ -37,6 +37,27 @@ async function register(req, res) {
     if (userExist) {
         return res.status(400).send({ message: 'El nombre de usuario ya está en uso' });
     }
+
+    // Agregamos la Sal y hasheamos la password
+    const saltRounds = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Creamos el usuario
+    const nuevoUsuario = await Usuario.create({
+      usuario: user,
+      password_hash: hashedPassword,
+      nombre_completo: name,
+      email,
+      rol_id: 5,
+      estado: 1
+    });
+    console.log(nuevoUsuario);
+
+    res.status(201).json({
+      status: "OK",
+      message: "Usuario registrado correctamente",
+      redirect: "/",
+    });
 }
 
 export const methods = {
