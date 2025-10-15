@@ -2,8 +2,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Usuario from '../models/usuarios.model.js';
 import dotenv from 'dotenv';
-import path from 'path';
-import { measureMemory } from 'vm';
 
 dotenv.config();
 
