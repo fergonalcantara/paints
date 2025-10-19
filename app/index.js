@@ -1,16 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
-
 import sequelize from "./db/db.js";
+dotenv.config();
 
 // Corregimos __dirname absoluta
 import path from 'path';
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Import metodos de Autenticacion
-import { methods as authentication} from "./controllers/authentication.controller.js";
+// Imports Controllers
+import authRoutes from './routes/authentication.routes.js';
+import rolesRoutes from './routes/roles.routes.js';
+import usuariosRoutes from './routes/usuarios.routes.js';
 
 // Creamos nuestro Servidor
 const app = express();
@@ -21,15 +22,17 @@ console.log("Servidor corriendo en el puerto ", app.get("port"));
 // Configuracion
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
+app.use('/api', authRoutes);
 
 // Rutas definidas
 app.get("/", (req,res)=> res.sendFile(__dirname + "/pages/login.html"));
 app.get("/register", (req,res)=> res.sendFile(__dirname + "/pages/register.html"));
 app.get("/admin", (req,res)=> res.sendFile(__dirname + "/pages/admin/admin.html"));
+app.get("/ventas", (req,res)=> res.sendFile(__dirname + "/pages/admin/ventas.html"));
 
 // API
-app.post("/api/register",authentication.register);
-app.post("/api/login",authentication.login);
+app.use('/api/roles', rolesRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 
 // Conexion a DB
 sequelize.sync().then(() => {
